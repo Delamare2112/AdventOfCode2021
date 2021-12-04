@@ -23,6 +23,21 @@ fn part_1(input: &str) -> usize {
     acc
 }
 
+fn part_1_fold(input: &str) -> usize {
+    let mut values = input
+        .lines()
+        .map(|line| line.parse::<usize>())
+        .filter_map(|line| line.ok());
+    let first = values.next().unwrap();
+    values.fold((0, first), |(acc, prev), i| {
+        if i > prev {
+            (acc + 1, i)
+        } else {
+            (acc, i)
+        }
+    }).0
+}
+
 fn part_2(input: &str) -> usize {
     let mut acc = 0;
     let values = input
@@ -70,6 +85,7 @@ mod tests {
 260
 263"#;
         assert_eq!(crate::part_1(input), 7);
+        assert_eq!(crate::part_1_fold(input), 7);
     }
     #[test]
     fn part_2() {
